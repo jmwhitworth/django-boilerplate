@@ -1,0 +1,9 @@
+# Ignore artifacts:
+build
+coverage
+src_compiled
+assets
+.venv
+docker-compose.yml
+package-lock.json
+*.html

@@ -1,0 +1,38 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: django_boilerplate_web
+    # Commented out as Dokploy uses traefik for routing
+    #ports:
+      #- "8000:8000"
+    env_file:
+      - .env
+    networks:
+      - dokploy-network
+    command: >
+      sh -c "
+        python ./manage.py migrate --no-input
+        exec gunicorn website.wsgi --bind 0.0.0.0:8000 --access-logfile -
+      "
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: django_boilerplate_worker
+    depends_on:
+      - web
+    env_file:
+      - .env
+    networks:
+      - dokploy-network
+    command: >
+      sh -c "
+        python ./manage.py db_worker
+      "
+
+networks:
+  dokploy-network:
+    external: true

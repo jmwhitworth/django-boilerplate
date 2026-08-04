@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+@source "../../**/*.html";
+@source "../../**/*.py";
+@source "../js/vue/clock/**/*.vue";
