@@ -2,11 +2,10 @@ import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import autoprefixer from 'autoprefixer'
 import tailwindcss from '@tailwindcss/vite'
-import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
     publicDir: resolve(__dirname, 'public'),
-    plugins: [tailwindcss(), vue()],
+    plugins: [tailwindcss()],
 
     root: resolve('./src'),
     base: '/assets/',
