@@ -3,9 +3,7 @@ name = "django-boilerplate"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-authors = [
-    { name = "jmwhitworth", email = "jackmartinwhit@gmail.com" }
-]
+authors = [{ name = "jmwhitworth", email = "jackmartinwhit@gmail.com" }]
 requires-python = ">=3.13"
 dependencies = [
     "django>=6.0.8",
@@ -19,13 +17,6 @@ dependencies = [
     "redis>=8.1.0",
     "whitenoise>=6.12.0",
 ]
-
-[project.scripts]
-django-boilerplate = "django_boilerplate:main"
-
-[build-system]
-requires = ["uv_build>=0.12.1,<0.13.0"]
-build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
