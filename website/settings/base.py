@@ -88,7 +88,8 @@ AUTH_USER_MODEL = "users.User"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-db = urlparse(os.environ.get("DATABASE_URL"))
+test_db_url = os.environ.get("TEST_DATABASE_URL") if TESTING else None
+db = urlparse(test_db_url or os.environ.get("DATABASE_URL"))
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -99,6 +100,12 @@ DATABASES = {
         "PORT": db.port,
     }
 }
+
+if test_db_url:
+    # TEST_DATABASE_URL points at a dedicated (e.g. in-memory) Postgres server
+    # for the test suite, so connect straight to it rather than letting Django
+    # create/destroy its usual "test_"-prefixed copy of NAME.
+    DATABASES["default"]["TEST"] = {"NAME": DATABASES["default"]["NAME"]}
 
 
 # Cache

@@ -42,3 +42,8 @@ LOGGING = {
     "disable_existing_loggers": False,
     "root": {"level": "CRITICAL"},
 }
+
+# Use a fast password hasher to speed up tests that create users
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.MD5PasswordHasher",
+]

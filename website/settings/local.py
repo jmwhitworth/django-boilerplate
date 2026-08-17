@@ -51,3 +51,15 @@ ZEAL_NPLUSONE_THRESHOLD = 3
 ZEAL_RAISE = False
 ZEAL_ALLOWLIST = [{"model": "contenttypes.ContentType"}]
 ZEAL_SHOW_ALL_CALLERS = False  # Whether to show full call stack
+
+if TESTING:
+    LOGGING = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "root": {"level": "CRITICAL"},
+    }
+
+    # Use a fast password hasher to speed up tests that create users
+    PASSWORD_HASHERS = [
+        "django.contrib.auth.hashers.MD5PasswordHasher",
+    ]
