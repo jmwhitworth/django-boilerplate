@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 import os
+import sys
 from urllib.parse import urlparse
 
 from django.utils.translation import gettext_lazy as _
@@ -19,6 +20,7 @@ from django.utils.translation import gettext_lazy as _
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
+TESTING = "test" in sys.argv or "PYTEST_VERSION" in os.environ
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -36,6 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.postgres",
+    "common",
+    "users",
     # Third party apps
     "django_vite",
     "debug_toolbar",
@@ -77,6 +81,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "website.wsgi.application"
+
+AUTH_USER_MODEL = "users.User"
 
 
 # Database

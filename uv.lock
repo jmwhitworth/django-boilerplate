@@ -130,7 +130,7 @@ wheels = [
 [[package]]
 name = "django-boilerplate"
 version = "0.1.0"
-source = { editable = "." }
+source = { virtual = "." }
 dependencies = [
     { name = "django" },
     { name = "django-cors-headers" },
@@ -148,6 +148,8 @@ dependencies = [
 dev = [
     { name = "black" },
     { name = "coverage" },
+    { name = "django-debug-toolbar" },
+    { name = "django-zeal" },
     { name = "djhtml" },
     { name = "factory-boy" },
     { name = "isort" },
@@ -171,6 +173,8 @@ requires-dist = [
 dev = [
     { name = "black", specifier = ">=26.5.1" },
     { name = "coverage", specifier = ">=7.15.3" },
+    { name = "django-debug-toolbar", specifier = ">=7.0.0" },
+    { name = "django-zeal", specifier = ">=2.2.2" },
     { name = "djhtml", specifier = ">=3.0.11" },
     { name = "factory-boy", specifier = ">=3.3.3" },
     { name = "isort", specifier = ">=8.0.1" },
@@ -254,6 +258,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/23/fe/4be07f538bbf9bf8bf73b045552ec2a1b4fba67e3176abb30490b643368e/django_vite-3.1.0.tar.gz", hash = "sha256:8b4ffe4a9fa81ff568bfb195e74dde8694aaf13fd4b656ae60bf59cce08b85e8", size = 25434, upload-time = "2025-02-23T15:32:07.914Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/30/59/7df4b1077fa41b43b4e542696d75138dbb86a65f44248c607b3e0f1014ce/django_vite-3.1.0-py3-none-any.whl", hash = "sha256:4e46572bd6b1ce70784be129205dc2ffcbc7a3c19fea50bebfb72b327bbde5fc", size = 23579, upload-time = "2025-02-23T15:32:06.603Z" },
+]
+
+[[package]]
+name = "django-zeal"
+version = "2.2.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/7a/03/102ca0e478abfd5481e4b45491e7a94f39019736c482eb23953cf61b92bc/django_zeal-2.2.2.tar.gz", hash = "sha256:d87b0dd55641dbcd502d343e42eaf3c5ba7e400d0575beff3743431c93b7a68d", size = 21648, upload-time = "2026-07-24T10:15:40.673Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a0/5f/38af99d4b7d7d651ea278c05e01433706b49d41f8a29118346a351795cc2/django_zeal-2.2.2-py3-none-any.whl", hash = "sha256:b59ca027d3198517fc38c6bcbe0649d90ec2656697d109a30d07b228932848ad", size = 15582, upload-time = "2026-07-24T10:15:39.56Z" },
 ]
 
 [[package]]

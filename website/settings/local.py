@@ -40,3 +40,14 @@ DJANGO_VITE = {
         "manifest_path": os.path.join(BASE_DIR, "assets/.vite/manifest.json"),
     },
 }
+
+ENABLE_ZEAL = os.environ.get("ENABLE_ZEAL", "False") == "True"
+if ENABLE_ZEAL and not TESTING:
+    INSTALLED_APPS.append("zeal")
+    MIDDLEWARE.append("zeal.middleware.zeal_middleware")
+
+# Django-zeal config
+ZEAL_NPLUSONE_THRESHOLD = 3
+ZEAL_RAISE = False
+ZEAL_ALLOWLIST = [{"model": "contenttypes.ContentType"}]
+ZEAL_SHOW_ALL_CALLERS = False  # Whether to show full call stack

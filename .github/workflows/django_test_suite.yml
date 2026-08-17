@@ -1,0 +1,58 @@
+name: Run Django tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17.9 # Matching prod DB version
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
+          POSTGRES_DB: django
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U root -d django"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_URL: postgres://root:root@localhost:5432/django
+      DJANGO_SETTINGS_MODULE: website.settings.test
+      PYTHONPATH: .
+      SECRET_KEY: supersecretkey
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432 -U root; do
+            echo "Waiting for postgres..."
+            sleep 2
+          done
+
+      - name: Collect static files
+        run: uv run python manage.py collectstatic --noinput
+
+      - name: Run tests
+        run: uv run python manage.py test
