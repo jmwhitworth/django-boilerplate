@@ -13,5 +13,3 @@ import.meta.glob('./vendor/*.js', {
 import.meta.glob('./*.js', {
     eager: true,
 })
-
-//import 'htmx.org'
