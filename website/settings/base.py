@@ -28,6 +28,11 @@ TESTING = "test" in sys.argv or "PYTEST_VERSION" in os.environ
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY", "")
 
+SITE_URL = os.environ.get("SITE_URL", "").rstrip("/")
+
+# Overridden by each environment's settings file; read via common.utils.is_*()
+ENVIRONMENT = ""
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -75,6 +80,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "common.context_processors.environment",
             ],
         },
     },
@@ -156,7 +162,14 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "public"),
@@ -196,3 +209,27 @@ EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL", "False") == "True"
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "")
+
+
+# Logging
+# https://docs.djangoproject.com/en/6.0/topics/logging/
+# Everything goes to the console so it shows up in the container logs. Django's
+# own console handler only runs when DEBUG is on, so without a root handler,
+# unhandled request errors (django.request) would be silently dropped.
+LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO").upper()
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(name)s %(message)s",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "root": {"level": LOG_LEVEL, "handlers": ["console"]},
+}

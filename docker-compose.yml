@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: django_boilerplate_web
+    container_name: ${PROJECT_NAME:-django}_web
     # Commented out as Dokploy uses traefik for routing
     #ports:
       #- "8000:8000"
@@ -13,8 +13,7 @@ services:
       - dokploy-network
     command: >
       sh -c "
-        python ./manage.py migrate --no-input
-        python ./manage.py collectstatic --noinput --clear
+        python ./manage.py migrate --no-input &&
         exec gunicorn website.wsgi --bind 0.0.0.0:8000 --access-logfile -
       "
 
@@ -22,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: django_boilerplate_worker
+    container_name: ${PROJECT_NAME:-django}_worker
     depends_on:
       - web
     env_file:

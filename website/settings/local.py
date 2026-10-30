@@ -2,6 +2,7 @@ import os
 
 from .base import *
 
+ENVIRONMENT = "LOCAL"
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
@@ -24,10 +25,19 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
 ]
 
+# Plain filenames locally; hashing needs collectstatic and only matters for caching in prod
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
 TASKS = {
     "default": {
-        "BACKEND": "django_tasks.backends.immediate.ImmediateBackend",
-        "ENQUEUE_ON_COMMIT": False,
+        "BACKEND": "django.tasks.backends.immediate.ImmediateBackend",
     },
 }
 
@@ -57,6 +67,13 @@ if TESTING:
         "version": 1,
         "disable_existing_loggers": False,
         "root": {"level": "CRITICAL"},
+    }
+
+    # Keep tests off the dev Redis
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        }
     }
 
     # Use a fast password hasher to speed up tests that create users

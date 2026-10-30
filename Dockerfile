@@ -38,4 +38,6 @@ COPY . .
 
 COPY --from=nodebuilder /app/src_compiled ./src_compiled
 
+RUN python ./manage.py collectstatic --noinput --clear
+
 EXPOSE 8000

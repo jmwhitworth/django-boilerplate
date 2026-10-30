@@ -1,5 +1,6 @@
 from .base import *
 
+ENVIRONMENT = "PRODUCTION"
 DEBUG = False
 
 ALLOWED_HOSTS = [
@@ -21,9 +22,3 @@ CSRF_TRUSTED_ORIGINS = [
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "root": {"level": "WARNING"},
-}

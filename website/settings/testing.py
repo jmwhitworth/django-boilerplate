@@ -2,6 +2,7 @@ import tempfile
 
 from .base import *
 
+ENVIRONMENT = "TESTING"
 DEBUG = True
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
@@ -30,11 +31,18 @@ STORAGES = {
     },
 }
 
+# Keep tests off the dev Redis
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    }
+}
+
 TASKS["default"]["BACKEND"] = "django.tasks.backends.immediate.ImmediateBackend"
 
 # Write uploaded/generated files (e.g. media.Image renditions) to a throwaway
 # directory instead of the real MEDIA_ROOT, so test runs don't leave files behind.
-MEDIA_ROOT = tempfile.mkdtemp(prefix="transakt_test_media_")
+MEDIA_ROOT = tempfile.mkdtemp(prefix="test_media_")
 
 # Suppress log output during test runs
 LOGGING = {

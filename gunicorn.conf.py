@@ -1,4 +1,4 @@
-import multiprocessing
+import os
 
-workers = 4
-# workers = multiprocessing.cpu_count() * 2 + 1
+# Fixed default rather than cpu_count(), which reports the host's cores inside a container
+workers = int(os.environ.get("GUNICORN_WORKERS") or 4)
