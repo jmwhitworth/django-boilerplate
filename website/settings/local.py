@@ -38,6 +38,7 @@ STORAGES = {
 TASKS = {
     "default": {
         "BACKEND": "django.tasks.backends.immediate.ImmediateBackend",
+        "ENQUEUE_ON_COMMIT": False,
     },
 }
 
@@ -50,6 +51,10 @@ DJANGO_VITE = {
         "manifest_path": os.path.join(BASE_DIR, "assets/.vite/manifest.json"),
     },
 }
+
+
+# More verbose logging locally, unless LOG_LEVEL says otherwise
+LOGGING["root"]["level"] = os.environ.get("LOG_LEVEL", "DEBUG").upper()
 
 ENABLE_ZEAL = os.environ.get("ENABLE_ZEAL", "False") == "True"
 if ENABLE_ZEAL and not TESTING:

@@ -1,7 +1,14 @@
+from django.core.cache import cache
 from django.db import connection
-from django.test import TestCase
+from django.test import TestCase as DjangoTestCase
 
 from common.tests.models import DummyModel
+
+
+class TestCase(DjangoTestCase):
+    def setUp(self):
+        super().setUp()
+        cache.clear()
 
 
 class DummyModelTestCase(TestCase):
